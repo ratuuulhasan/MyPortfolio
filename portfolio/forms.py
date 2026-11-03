@@ -1,6 +1,5 @@
 from django import forms
-from .models import (Profile, SiteSettings, Skill, Project,
-                     Experience, Education, SocialLink, Message)
+from .models import *
 
 
 class BootstrapMixin:
@@ -83,3 +82,25 @@ class ContactForm(BootstrapMixin, forms.ModelForm):
         model = Message
         fields = ['name', 'email', 'subject', 'message']
         widgets = {'message': forms.Textarea(attrs={'rows': 5})}
+
+
+class BlogForm(BootstrapMixin, forms.ModelForm):
+    class Meta:
+        model = Blog
+        fields = ['title', 'excerpt', 'content', 'cover_image',
+                  'tags', 'is_published']
+        widgets = {
+            'excerpt': forms.Textarea(attrs={'rows': 3}),
+            'content': forms.Textarea(attrs={'rows': 14}),
+        }
+
+
+class CertificationForm(BootstrapMixin, forms.ModelForm):
+    class Meta:
+        model = Certification
+        fields = ['title', 'issuer', 'issue_date', 'expiry_date',
+                  'image', 'credential_url', 'credential_id', 'order']
+        widgets = {
+            'issue_date': forms.DateInput(attrs={'type': 'date'}),
+            'expiry_date': forms.DateInput(attrs={'type': 'date'}),
+        }

@@ -15,6 +15,8 @@ def home(request):
         'projects': Project.objects.all(),
         'experiences': Experience.objects.all(),
         'educations': Education.objects.all(),
+        'certifications': Certification.objects.all()[:6],
+        'recent_posts': Blog.objects.filter(is_published=True)[:3],
     }
     return render(request, 'public/home.html', context)
 
@@ -70,6 +72,8 @@ def admin_dashboard(request):
     context = {
         'total_skills': Skill.objects.count(),
         'total_projects': Project.objects.count(),
+        'total_blogs': Blog.objects.count(),
+        'total_certifications': Certification.objects.count(),
         'total_messages': Message.objects.count(),
         'unread_messages': Message.objects.filter(is_read=False).count(),
         'recent_messages': Message.objects.all()[:5],
@@ -321,3 +325,87 @@ def admin_settings(request):
     else:
         form = SiteSettingsForm(instance=obj)
     return render(request, 'admin_panel/settings.html', {'form': form})
+
+# ==================== PUBLIC BLOG ====================
+def blog_list(request):
+    posts = Blog.objects.filter(is_published=True)
+    return render(request, 'public/blog_list.html', {'posts': posts})
+
+
+def blog_detail(request, slug):
+    post = get_object_or_404(Blog, slug=slug, is_published=True)
+    related = Blog.objects.filter(is_published=True).exclude(pk=post.pk)[:3]
+    return render(request, 'public/blog_detail.html',
+                  {'post': post, 'related': related})
+
+
+# ==================== ADMIN: BLOG ====================
+@login_required
+def admin_blogs(request):
+    return render(request, 'admin_panel/blogs.html',
+                  {'blogs': Blog.objects.all()})
+
+
+@login_required
+def admin_blog_add(request):
+    form = _generic_form(request, BlogForm, redirect_to='admin_blogs',
+                         file_upload=True, action='Add')
+    if hasattr(form, 'is_valid'):
+        return render(request, 'admin_panel/blog_form.html',
+                      {'form': form, 'action': 'Add Blog Post'})
+    return form
+
+
+@login_required
+def admin_blog_edit(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+    form = _generic_form(request, BlogForm, instance=blog,
+                         redirect_to='admin_blogs', file_upload=True, action='Edit')
+    if hasattr(form, 'is_valid'):
+        return render(request, 'admin_panel/blog_form.html',
+                      {'form': form, 'action': 'Edit Blog Post'})
+    return form
+
+
+@login_required
+def admin_blog_delete(request, pk):
+    get_object_or_404(Blog, pk=pk).delete()
+    msg.success(request, 'Blog post deleted!')
+    return redirect('admin_blogs')
+
+
+# ==================== ADMIN: CERTIFICATION ====================
+@login_required
+def admin_certifications(request):
+    return render(request, 'admin_panel/certifications.html',
+                  {'certifications': Certification.objects.all()})
+
+
+@login_required
+def admin_certification_add(request):
+    form = _generic_form(request, CertificationForm,
+                         redirect_to='admin_certifications',
+                         file_upload=True, action='Add')
+    if hasattr(form, 'is_valid'):
+        return render(request, 'admin_panel/certification_form.html',
+                      {'form': form, 'action': 'Add Certification'})
+    return form
+
+
+@login_required
+def admin_certification_edit(request, pk):
+    cert = get_object_or_404(Certification, pk=pk)
+    form = _generic_form(request, CertificationForm, instance=cert,
+                         redirect_to='admin_certifications',
+                         file_upload=True, action='Edit')
+    if hasattr(form, 'is_valid'):
+        return render(request, 'admin_panel/certification_form.html',
+                      {'form': form, 'action': 'Edit Certification'})
+    return form
+
+
+@login_required
+def admin_certification_delete(request, pk):
+    get_object_or_404(Certification, pk=pk).delete()
+    msg.success(request, 'Certification deleted!')
+    return redirect('admin_certifications')

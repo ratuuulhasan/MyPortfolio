@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 
 class Profile(models.Model):
@@ -133,3 +134,60 @@ class Message(models.Model):
 
     def __str__(self):
         return f"{self.subject} - {self.name}"
+
+
+class Blog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blogs')
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=280, unique=True, blank=True)
+    excerpt = models.TextField(max_length=400, blank=True,
+                                help_text="Short preview shown in listing")
+    content = models.TextField()
+    cover_image = models.ImageField(upload_to='blogs/', blank=True, null=True)
+    tags = models.CharField(max_length=300, blank=True,
+                             help_text="Comma separated tags")
+    is_published = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def get_tags(self):
+        return [t.strip() for t in self.tags.split(',') if t.strip()]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.title)[:250]
+            slug = base
+            n = 1
+            while Blog.objects.filter(slug=slug).exists():
+                slug = f"{base}-{n}"
+                n += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+
+class Certification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='certifications')
+    title = models.CharField(max_length=250)
+    issuer = models.CharField(max_length=200)
+    issue_date = models.DateField()
+    expiry_date = models.DateField(blank=True, null=True)
+    image = models.ImageField(upload_to='certifications/',
+                               blank=True, null=True,
+                               help_text="Certificate image")
+    credential_url = models.URLField(blank=True,
+                                       help_text="Verify link (optional)")
+    credential_id = models.CharField(max_length=150, blank=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order', '-issue_date']
+
+    def __str__(self):
+        return f"{self.title} - {self.issuer}"
