@@ -10,7 +10,7 @@
         {% endif %}
         <h1 class="display-4 fw-bold">{{ profile.name|default:"Your Name" }}</h1>
         <p class="lead fs-3">{{ profile.title|default:"Full Stack Developer" }}</p>
-        <p class="mx-auto" style="max-width:650px;">{{ profile.bio|truncatewords:30 }}</p>
+        <p class="mx-auto" style="max-width:650px;">{{ profile.short_bio|default:profile.bio|truncatewords:30 }}</p>
         <div class="mt-4">
             <a href="#contact" class="btn btn-light btn-lg me-2 px-4">Hire Me</a>
             {% if profile.cv %}

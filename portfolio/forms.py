@@ -20,9 +20,12 @@ class BootstrapMixin:
 class ProfileForm(BootstrapMixin, forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['name', 'title', 'bio', 'profile_image',
+        fields = ['name', 'title', 'short_bio', 'bio', 'profile_image',
                   'email', 'phone', 'location', 'cv']
-        widgets = {'bio': forms.Textarea(attrs={'rows': 4})}
+        widgets = {
+            'bio': forms.Textarea(attrs={'rows': 4}),
+            'short_bio': forms.Textarea(attrs={'rows': 2}),
+            }
 
 
 class SiteSettingsForm(BootstrapMixin, forms.ModelForm):
