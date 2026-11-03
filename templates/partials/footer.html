@@ -1,0 +1,14 @@
+<footer class="bg-dark text-white text-center py-4 mt-5">
+    <div class="container">
+        <div class="mb-3">
+            {% for link in social_links_global %}
+                <a href="{{ link.url }}" target="_blank" class="text-white mx-2 fs-4">
+                    <i class="{{ link.icon }}"></i>
+                </a>
+            {% endfor %}
+        </div>
+        <p class="mb-0 small">
+            &copy; {% now "Y" %} {{ profile_global.name|default:"Portfolio" }}. All rights reserved.
+        </p>
+    </div>
+</footer>

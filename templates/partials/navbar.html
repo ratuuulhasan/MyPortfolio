@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+            {% if site_settings.logo %}
+                <img src="{{ site_settings.logo.url }}" alt="logo" height="30">
+            {% else %}
+                {{ profile_global.name|default:"Portfolio" }}
+            {% endif %}
+        </a>
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/#home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="/#skills">Skills</a></li>
+                <li class="nav-item"><a class="nav-link" href="/#projects">Projects</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                <li class="nav-item"><a class="nav-link btn btn-primary text-white ms-2 px-3" href="{% url 'admin_login' %}">Admin</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
