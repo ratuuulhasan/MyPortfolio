@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+<section class="section-padding">
+    <div class="container" style="max-width:850px;">
+        <a href="{% url 'blog_list' %}" class="btn-outline-gradient mb-4" style="padding:8px 18px;">
+            <i class="bi bi-arrow-left"></i> Back to Blog
+        </a>
+
+        <div data-aos="fade-up">
+            {% for tag in post.get_tags %}
+                <span class="blog-tag">{{ tag }}</span>
+            {% endfor %}
+            <h1 class="display-4 fw-bold mt-3 mb-3">{{ post.title }}</h1>
+            <p class="text-muted">
+                <i class="bi bi-calendar"></i> {{ post.created_at|date:"F d, Y" }}
+                {% if post.updated_at != post.created_at %}
+                <span class="mx-2">•</span>
+                <i class="bi bi-arrow-clockwise"></i> Updated {{ post.updated_at|date:"M d, Y" }}
+                {% endif %}
+            </p>
+        </div>
+
+        {% if post.cover_image %}
+        <div class="my-4" data-aos="fade-up" data-aos-delay="100">
+            <img src="{{ post.cover_image.url }}" class="img-fluid rounded-4 shadow" alt="{{ post.title }}">
+        </div>
+        {% endif %}
+
+        <div class="card-custom" data-aos="fade-up" data-aos-delay="200">
+            <div style="line-height:1.9; font-size:1.05rem;">
+                {{ post.content|linebreaks }}
+            </div>
+        </div>
+
+        {% if related %}
+        <div class="mt-5">
+            <h3 class="fw-bold mb-4">Related Posts</h3>
+            <div class="row g-4">
+                {% for p in related %}
+                <div class="col-md-4">
+                    <a href="{% url 'blog_detail' p.slug %}" class="text-decoration-none">
+                        <div class="blog-card">
+                            {% if p.cover_image %}
+                            <img src="{{ p.cover_image.url }}" class="blog-image" style="height:140px;" alt="{{ p.title }}">
+                            {% endif %}
+                            <div class="p-3">
+                                <h6 class="fw-bold mb-1" style="color:var(--text);">{{ p.title|truncatewords:8 }}</h6>
+                                <small class="text-muted">{{ p.created_at|date:"M d, Y" }}</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,49 +1,52 @@
 {% extends 'admin_panel/base_admin.html' %}
-{% block title %}Dashboard{% endblock %}
 {% block page_title %}Dashboard{% endblock %}
 {% block content %}
 <div class="row g-3">
-    <div class="col-md-3">
-        <div class="card text-white" style="background:#0d6efd;">
-            <div class="card-body">
-                <h6><i class="bi bi-star"></i> Skills</h6>
-                <h2 class="mb-0">{{ total_skills }}</h2>
-            </div>
+    <div class="col-6 col-md-4">
+        <div class="admin-stat grad-1">
+            <h6><i class="bi bi-star"></i> Skills</h6>
+            <h2 class="mb-0">{{ total_skills }}</h2>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card text-white" style="background:#198754;">
-            <div class="card-body">
-                <h6><i class="bi bi-folder"></i> Projects</h6>
-                <h2 class="mb-0">{{ total_projects }}</h2>
-            </div>
+    <div class="col-6 col-md-4">
+        <div class="admin-stat grad-2">
+            <h6><i class="bi bi-folder"></i> Projects</h6>
+            <h2 class="mb-0">{{ total_projects }}</h2>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card text-white" style="background:#0dcaf0;">
-            <div class="card-body">
-                <h6><i class="bi bi-envelope"></i> Messages</h6>
-                <h2 class="mb-0">{{ total_messages }}</h2>
-            </div>
+    <div class="col-6 col-md-4">
+        <div class="admin-stat grad-3">
+            <h6><i class="bi bi-journal-text"></i> Blog Posts</h6>
+            <h2 class="mb-0">{{ total_blogs }}</h2>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card text-white" style="background:#ffc107;">
-            <div class="card-body">
-                <h6><i class="bi bi-bell"></i> Unread</h6>
-                <h2 class="mb-0">{{ unread_messages }}</h2>
-            </div>
+    <div class="col-6 col-md-4">
+        <div class="admin-stat grad-5">
+            <h6><i class="bi bi-award"></i> Certifications</h6>
+            <h2 class="mb-0">{{ total_certifications }}</h2>
+        </div>
+    </div>
+    <div class="col-6 col-md-4">
+        <div class="admin-stat grad-4">
+            <h6><i class="bi bi-envelope"></i> Messages</h6>
+            <h2 class="mb-0">{{ total_messages }}</h2>
+        </div>
+    </div>
+    <div class="col-6 col-md-4">
+        <div class="admin-stat grad-6">
+            <h6><i class="bi bi-bell"></i> Unread</h6>
+            <h2 class="mb-0">{{ unread_messages }}</h2>
         </div>
     </div>
 </div>
 
-<div class="card mt-4">
-    <div class="card-header fw-bold">Recent Messages</div>
-    <div class="card-body">
+<div class="admin-card mt-4">
+    <div class="p-3 fw-bold border-bottom" style="border-color:var(--border)!important;">Recent Messages</div>
+    <div class="p-3">
         {% if recent_messages %}
             <ul class="list-group list-group-flush">
                 {% for m in recent_messages %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
                     <div>
                         <strong>{{ m.name }}</strong> — {{ m.subject }}
                         <br><small class="text-muted">{{ m.created_at|date:"M d, Y H:i" }}</small>

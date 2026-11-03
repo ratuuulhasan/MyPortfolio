@@ -1,54 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Admin{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
     <style>
-        body { background: #f4f6f9; }
-        .sidebar { background: #1e293b; min-height: 100vh; padding: 0; }
-        .sidebar h5 { color: #fff; padding: 20px; margin: 0; border-bottom: 1px solid #334155; }
+        body { background: var(--bg); color: var(--text); }
+        .sidebar {
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh; padding: 0;
+            position: sticky; top: 0; height: 100vh; overflow-y: auto;
+        }
+        .sidebar h5 { color: #fff; padding: 20px; margin: 0;
+            border-bottom: 1px solid #334155;
+            background: var(--gradient); }
         .sidebar a {
-            color: #94a3b8; padding: 12px 20px; display: block;
+            color: #94a3b8; padding: 12px 20px; display: flex;
+            align-items: center; gap: 10px;
             text-decoration: none; border-left: 3px solid transparent;
-            transition: all .2s;
+            transition: all .2s; font-size: .92rem;
         }
         .sidebar a:hover, .sidebar a.active {
-            background: #334155; color: #fff; border-left-color: #0d6efd;
+            background: rgba(255,255,255,0.05); color: #fff;
+            border-left-color: #6366f1;
         }
-        .main { padding: 20px; }
-        .card { border: none; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+        .main { padding: 24px; }
+        .admin-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+        .admin-stat {
+            color: #fff; border-radius: 16px; padding: 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        .admin-stat.grad-1 { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+        .admin-stat.grad-2 { background: linear-gradient(135deg, #10b981, #059669); }
+        .admin-stat.grad-3 { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .admin-stat.grad-4 { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .admin-stat.grad-5 { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .admin-stat.grad-6 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .table { color: var(--text); }
+        .table-hover tbody tr:hover { background: rgba(99,102,241,0.05); color: var(--text); }
+        .admin-card .table thead { background: var(--bg); color: var(--text-muted); }
         @media (max-width: 767px) {
-            .sidebar { min-height: auto; }
+            .sidebar { position: relative; height: auto; min-height: auto; }
         }
     </style>
 </head>
 <body>
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
         <div class="col-md-2 sidebar p-0">
             <h5><i class="bi bi-speedometer2"></i> Admin Panel</h5>
             <a href="{% url 'admin_dashboard' %}"><i class="bi bi-house"></i> Dashboard</a>
             <a href="{% url 'admin_profile' %}"><i class="bi bi-person"></i> Profile</a>
             <a href="{% url 'admin_skills' %}"><i class="bi bi-star"></i> Skills</a>
             <a href="{% url 'admin_projects' %}"><i class="bi bi-folder"></i> Projects</a>
+            <a href="{% url 'admin_certifications' %}"><i class="bi bi-award"></i> Certifications</a>
+            <a href="{% url 'admin_blogs' %}"><i class="bi bi-journal-text"></i> Blog</a>
             <a href="{% url 'admin_experiences' %}"><i class="bi bi-briefcase"></i> Experience</a>
             <a href="{% url 'admin_educations' %}"><i class="bi bi-mortarboard"></i> Education</a>
             <a href="{% url 'admin_social_links' %}"><i class="bi bi-link-45deg"></i> Social Links</a>
             <a href="{% url 'admin_messages' %}"><i class="bi bi-envelope"></i> Messages</a>
             <a href="{% url 'admin_settings' %}"><i class="bi bi-gear"></i> Settings</a>
+            <hr style="border-color:#334155;">
             <a href="{% url 'home' %}" target="_blank"><i class="bi bi-box-arrow-up-right"></i> View Site</a>
-            <a href="{% url 'admin_logout' %}" class="text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            <a href="{% url 'admin_logout' %}" style="color:#f87171;"><i class="bi bi-box-arrow-right"></i> Logout</a>
         </div>
 
-        <!-- Main -->
         <div class="col-md-10 main">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h3 class="mb-0">{% block page_title %}Admin{% endblock %}</h3>
-                <span class="text-muted small">Hi, {{ user.username }}</span>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="mb-0 fw-bold">{% block page_title %}Admin{% endblock %}</h3>
+                <div class="d-flex align-items-center gap-3">
+                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                        <i class="bi bi-moon-stars-fill"></i>
+                    </button>
+                    <span class="text-muted small">Hi, {{ user.username }}</span>
+                </div>
             </div>
 
             {% if messages %}
@@ -64,6 +97,27 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Dark mode + theme icon for admin panel
+(function() {
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', saved);
+    function updateIcon() {
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        document.querySelectorAll('.theme-toggle i').forEach(i => {
+            i.className = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
+        });
+    }
+    window.toggleTheme = function() {
+        const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateIcon();
+    };
+    document.addEventListener('DOMContentLoaded', updateIcon);
+})();
+</script>
 {% block extra_js %}{% endblock %}
 </body>
 </html>

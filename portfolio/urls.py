@@ -52,4 +52,20 @@ urlpatterns = [
 
     # Settings
     path('admin-panel/settings/', views.admin_settings, name='admin_settings'),
+
+    # Public
+    path('blog/', views.blog_list, name='blog_list'),
+    path('blog/<slug:slug>/', views.blog_detail, name='blog_detail'),
+
+    # Admin — Blog
+    path('admin-panel/blogs/', views.admin_blogs, name='admin_blogs'),
+    path('admin-panel/blogs/add/', views.admin_blog_add, name='admin_blog_add'),
+    path('admin-panel/blogs/<int:pk>/edit/', views.admin_blog_edit, name='admin_blog_edit'),
+    path('admin-panel/blogs/<int:pk>/delete/', views.admin_blog_delete, name='admin_blog_delete'),
+
+    # Admin — Certification
+    path('admin-panel/certifications/', views.admin_certifications, name='admin_certifications'),
+    path('admin-panel/certifications/add/', views.admin_certification_add, name='admin_certification_add'),
+    path('admin-panel/certifications/<int:pk>/edit/', views.admin_certification_edit, name='admin_certification_edit'),
+    path('admin-panel/certifications/<int:pk>/delete/', views.admin_certification_delete, name='admin_certification_delete'),
 ]

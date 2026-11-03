@@ -1,0 +1,39 @@
+{% extends 'admin_panel/base_admin.html' %}
+{% block page_title %}Certifications{% endblock %}
+{% block content %}
+<a href="{% url 'admin_certification_add' %}" class="btn btn-gradient mb-3">
+    <i class="bi bi-plus"></i> Add Certification
+</a>
+<div class="admin-card">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr><th>Image</th><th>Title</th><th>Issuer</th><th>Date</th><th style="width:180px;">Actions</th></tr>
+        </thead>
+        <tbody>
+            {% for c in certifications %}
+            <tr>
+                <td>
+                    {% if c.image %}
+                        <img src="{{ c.image.url }}" alt="{{ c.title }}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
+                    {% else %}
+                        <div style="width:60px;height:60px;background:var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                            <i class="bi bi-award"></i>
+                        </div>
+                    {% endif %}
+                </td>
+                <td><strong>{{ c.title }}</strong></td>
+                <td>{{ c.issuer }}</td>
+                <td><small>{{ c.issue_date|date:"M d, Y" }}</small></td>
+                <td>
+                    <a href="{% url 'admin_certification_edit' c.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <a href="{% url 'admin_certification_delete' c.pk %}" class="btn btn-sm btn-outline-danger"
+                       onclick="return confirm('Delete this certification?')">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="text-center text-muted py-4">No certifications yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

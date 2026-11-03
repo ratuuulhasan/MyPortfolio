@@ -1,58 +1,109 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- HERO -->
-<section id="home" class="hero-section text-white d-flex align-items-center">
-    <div class="container text-center py-5">
-        {% if profile.profile_image %}
-            <img src="{{ profile.profile_image.url }}" alt="{{ profile.name }}"
-                 class="rounded-circle mb-4 border border-4 border-white shadow" width="160" height="160" style="object-fit:cover;">
-        {% endif %}
-        <h1 class="display-4 fw-bold">{{ profile.name|default:"Your Name" }}</h1>
-        <p class="lead fs-3">{{ profile.title|default:"Full Stack Developer" }}</p>
-        <p class="mx-auto" style="max-width:650px;">{{ profile.short_bio|default:profile.bio|truncatewords:30 }}</p>
-        <div class="mt-4">
-            <a href="#contact" class="btn btn-light btn-lg me-2 px-4">Hire Me</a>
-            {% if profile.cv %}
-                <a href="{{ profile.cv.url }}" class="btn btn-outline-light btn-lg px-4" download>
-                    <i class="bi bi-download"></i> Download CV
-                </a>
-            {% endif %}
-        </div>
-    </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about" class="py-5">
+<!-- ==================== HERO ==================== -->
+<section id="home" class="hero-section">
     <div class="container">
-        <h2 class="text-center mb-5 fw-bold">About Me</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <p class="fs-5">{{ profile.bio|default:"About info coming soon..." }}</p>
-                <ul class="list-unstyled mt-4">
-                    {% if profile.email %}<li class="mb-2"><i class="bi bi-envelope-fill text-primary me-2"></i>{{ profile.email }}</li>{% endif %}
-                    {% if profile.phone %}<li class="mb-2"><i class="bi bi-phone-fill text-primary me-2"></i>{{ profile.phone }}</li>{% endif %}
-                    {% if profile.location %}<li class="mb-2"><i class="bi bi-geo-alt-fill text-primary me-2"></i>{{ profile.location }}</li>{% endif %}
-                </ul>
+        <div class="row align-items-center g-5 hero-content">
+            <div class="col-lg-7 text-center text-lg-start" data-aos="fade-right">
+                <div class="hero-greeting">
+                    <i class="bi bi-hand-thumbs-up"></i> Hello, I'm available for work
+                </div>
+                <h1 class="hero-title">
+                    Hi, I'm <span class="gradient-text">{{ profile.name|default:"Your Name" }}</span>
+                </h1>
+                <h2 class="fs-3 fw-semibold mb-3">
+                    <span id="typed" class="typed-text" data-words="{{ profile.title|default:'Full Stack Developer' }}|Web Designer|Problem Solver|Freelancer"></span><span class="cursor-blink"></span>
+                </h2>
+                <p class="fs-5 text-muted mb-4" style="max-width:560px;">
+                    {{ profile.bio|default:"Passionate developer building beautiful, functional, and user-friendly web experiences."|truncatewords:30 }}
+                </p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+                    <a href="#contact" class="btn-gradient">
+                        <i class="bi bi-send"></i> Hire Me
+                    </a>
+                    {% if profile.cv %}
+                        <a href="{{ profile.cv.url }}" class="btn-outline-gradient" download>
+                            <i class="bi bi-download"></i> Download CV
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-5 text-center" data-aos="fade-left" data-aos-delay="200">
+                {% if profile.profile_image %}
+                <div class="hero-avatar-wrap">
+                    <img src="{{ profile.profile_image.url }}" alt="{{ profile.name }}" class="hero-avatar">
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
 </section>
 
-<!-- SKILLS -->
-{% if site_settings.show_skills and skills %}
-<section id="skills" class="py-5 bg-light">
+<!-- ==================== ABOUT ==================== -->
+<section id="about" class="section-padding">
     <div class="container">
-        <h2 class="text-center mb-5 fw-bold">Skills</h2>
-        <div class="row">
-            {% for skill in skills %}
-            <div class="col-md-6 mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                    <span class="fw-semibold"><i class="{{ skill.icon }} me-2 text-primary"></i>{{ skill.name }}</span>
-                    <span class="text-muted">{{ skill.level }}%</span>
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-eyebrow">About Me</span>
+            <h2 class="section-title">Who I Am</h2>
+            <p class="section-subtitle">A brief story about my journey</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-9" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-custom">
+                    <p class="fs-5" style="line-height:1.9;">{{ profile.bio|default:"About info coming soon..." }}</p>
+                    <div class="row mt-4 g-3">
+                        {% if profile.email %}
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-envelope-fill fs-4" style="color:var(--primary);"></i>
+                                <div><small class="text-muted d-block">Email</small><strong>{{ profile.email }}</strong></div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if profile.phone %}
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-phone-fill fs-4" style="color:var(--primary);"></i>
+                                <div><small class="text-muted d-block">Phone</small><strong>{{ profile.phone }}</strong></div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if profile.location %}
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-geo-alt-fill fs-4" style="color:var(--primary);"></i>
+                                <div><small class="text-muted d-block">Location</small><strong>{{ profile.location }}</strong></div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="progress" style="height:8px;">
-                    <div class="progress-bar bg-primary" style="width: {{ skill.level }}%"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SKILLS ==================== -->
+{% if site_settings.show_skills and skills %}
+<section id="skills" class="section-padding" style="background:var(--bg-card);">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-eyebrow">Expertise</span>
+            <h2 class="section-title">My Skills</h2>
+            <p class="section-subtitle">Technologies I've worked with</p>
+        </div>
+        <div class="row g-3">
+            {% for skill in skills %}
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}50">
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span><i class="{{ skill.icon }} me-2" style="color:var(--primary);"></i>{{ skill.name }}</span>
+                        <span style="color:var(--primary);">{{ skill.level }}%</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" data-level="{{ skill.level }}" style="width:0%"></div>
+                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -61,29 +112,47 @@
 </section>
 {% endif %}
 
-<!-- PROJECTS -->
+<!-- ==================== PROJECTS ==================== -->
 {% if site_settings.show_projects and projects %}
-<section id="projects" class="py-5">
+<section id="projects" class="section-padding">
     <div class="container">
-        <h2 class="text-center mb-5 fw-bold">Projects</h2>
-        <div class="row">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-eyebrow">Portfolio</span>
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">Some of my recent work</p>
+        </div>
+        <div class="row g-4">
             {% for project in projects %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm border-0">
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                <div class="project-card">
                     {% if project.image %}
-                        <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}"
-                             style="height:200px; object-fit:cover;">
+                        <div class="overflow-hidden">
+                            <img src="{{ project.image.url }}" class="project-image" alt="{{ project.title }}">
+                        </div>
+                    {% else %}
+                        <div class="project-image d-flex align-items-center justify-content-center"
+                             style="background:var(--gradient);">
+                            <i class="bi bi-code-slash text-white" style="font-size:3rem;"></i>
+                        </div>
                     {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <p class="card-text text-muted">{{ project.description|truncatewords:18 }}</p>
-                        <div class="mb-2">
+                    <div class="project-body d-flex flex-column">
+                        <h5 class="fw-bold mb-2">{{ project.title }}</h5>
+                        <p class="text-muted small flex-grow-1">{{ project.description|truncatewords:18 }}</p>
+                        <div class="mb-3">
                             {% for tech in project.get_tech_list %}
-                                <span class="badge bg-secondary me-1">{{ tech }}</span>
+                                <span class="tech-badge">{{ tech }}</span>
                             {% endfor %}
                         </div>
-                        <a href="{% url 'project_detail' project.pk %}" class="btn btn-sm btn-primary">Details</a>
-                        {% if project.live_url %}<a href="{{ project.live_url }}" target="_blank" class="btn btn-sm btn-outline-success">Live</a>{% endif %}
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'project_detail' project.pk %}" class="btn-gradient flex-grow-1 text-center"
+                               style="padding:10px 20px;font-size:.9rem;">View</a>
+                            {% if project.live_url %}
+                            <a href="{{ project.live_url }}" target="_blank"
+                               class="btn-outline-gradient" style="padding:8px 16px;">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,58 +162,164 @@
 </section>
 {% endif %}
 
-<!-- EXPERIENCE -->
+<!-- ==================== CERTIFICATIONS (NEW) ==================== -->
+{% if certifications %}
+<section id="certifications" class="section-padding" style="background:var(--bg-card);">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-eyebrow">Achievements</span>
+            <h2 class="section-title">Certifications</h2>
+            <p class="section-subtitle">Professional certifications & credentials</p>
+        </div>
+        <div class="row g-4">
+            {% for cert in certifications %}
+            <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0 }}00">
+                <div class="cert-card">
+                    {% if cert.image %}
+                    <img src="{{ cert.image.url }}" class="cert-image" alt="{{ cert.title }}">
+                    {% else %}
+                    <div class="cert-image d-flex align-items-center justify-content-center">
+                        <i class="bi bi-award-fill" style="font-size:4rem;color:var(--primary);"></i>
+                    </div>
+                    {% endif %}
+                    <div class="p-4">
+                        <h5 class="fw-bold mb-2">{{ cert.title }}</h5>
+                        <p class="text-muted small mb-2">
+                            <i class="bi bi-building"></i> {{ cert.issuer }}
+                        </p>
+                        <p class="small mb-3">
+                            <i class="bi bi-calendar-check"></i>
+                            {{ cert.issue_date|date:"M Y" }}
+                            {% if cert.expiry_date %} — {{ cert.expiry_date|date:"M Y" }}{% else %} — No Expiry{% endif %}
+                        </p>
+                        {% if cert.credential_url %}
+                        <a href="{{ cert.credential_url }}" target="_blank" class="btn-outline-gradient w-100 text-center" style="padding:8px;font-size:.85rem;">
+                            <i class="bi bi-patch-check"></i> Verify Credential
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ==================== EXPERIENCE ==================== -->
 {% if site_settings.show_experience and experiences %}
-<section id="experience" class="py-5 bg-light">
+<section id="experience" class="section-padding">
     <div class="container">
-        <h2 class="text-center mb-5 fw-bold">Experience</h2>
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-eyebrow">Career</span>
+            <h2 class="section-title">Experience</h2>
+        </div>
         <div class="row justify-content-center">
             <div class="col-md-9">
-                {% for exp in experiences %}
-                <div class="card mb-3 border-0 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="mb-1">{{ exp.role }}</h5>
-                        <p class="text-primary fw-semibold mb-1">{{ exp.company }}</p>
-                        <small class="text-muted">{{ exp.start_date }} — {{ exp.end_date|default:"Present" }}</small>
-                        <p class="mt-2 mb-0">{{ exp.description }}</p>
+                <div class="timeline">
+                    {% for exp in experiences %}
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                        <div class="d-flex justify-content-between flex-wrap">
+                            <h5 class="fw-bold mb-1">{{ exp.role }}</h5>
+                            <span class="small text-muted">
+                                {{ exp.start_date|date:"M Y" }} — {{ exp.end_date|date:"M Y"|default:"Present" }}
+                            </span>
+                        </div>
+                        <p class="fw-semibold mb-2" style="color:var(--primary);">{{ exp.company }}</p>
+                        <p class="mb-0 text-muted">{{ exp.description }}</p>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
     </div>
 </section>
 {% endif %}
 
-<!-- EDUCATION -->
+<!-- ==================== EDUCATION ==================== -->
 {% if site_settings.show_education and educations %}
-<section id="education" class="py-5">
+<section id="education" class="section-padding" style="background:var(--bg-card);">
     <div class="container">
-        <h2 class="text-center mb-5 fw-bold">Education</h2>
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-eyebrow">Academic</span>
+            <h2 class="section-title">Education</h2>
+        </div>
         <div class="row justify-content-center">
             <div class="col-md-9">
-                {% for edu in educations %}
-                <div class="card mb-3 border-0 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="mb-1">{{ edu.degree }}</h5>
-                        <p class="text-primary fw-semibold mb-1">{{ edu.institute }}</p>
-                        <small class="text-muted">{{ edu.year }}</small>
-                        <p class="mt-2 mb-0">{{ edu.description }}</p>
+                <div class="timeline">
+                    {% for edu in educations %}
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                        <div class="d-flex justify-content-between flex-wrap">
+                            <h5 class="fw-bold mb-1">{{ edu.degree }}</h5>
+                            <span class="small text-muted">{{ edu.year }}</span>
+                        </div>
+                        <p class="fw-semibold mb-2" style="color:var(--primary);">{{ edu.institute }}</p>
+                        <p class="mb-0 text-muted">{{ edu.description }}</p>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
     </div>
 </section>
 {% endif %}
 
-<!-- CONTACT CTA -->
-<section id="contact" class="cta-section py-5 text-white text-center">
+<!-- ==================== BLOG PREVIEW (NEW) ==================== -->
+{% if recent_posts %}
+<section id="blog" class="section-padding">
     <div class="container">
-        <h2 class="fw-bold">Get In Touch</h2>
-        <p class="lead">Have a project in mind? Let's work together.</p>
-        <a href="{% url 'contact' %}" class="btn btn-light btn-lg mt-3 px-4">Send Message</a>
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-eyebrow">Insights</span>
+            <h2 class="section-title">Latest Blog Posts</h2>
+            <p class="section-subtitle">Thoughts, tutorials & stories</p>
+        </div>
+        <div class="row g-4">
+            {% for post in recent_posts %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                <a href="{% url 'blog_detail' post.slug %}" class="text-decoration-none">
+                    <div class="blog-card">
+                        {% if post.cover_image %}
+                        <div class="overflow-hidden">
+                            <img src="{{ post.cover_image.url }}" class="blog-image" alt="{{ post.title }}">
+                        </div>
+                        {% else %}
+                        <div class="blog-image d-flex align-items-center justify-content-center"
+                             style="background:var(--gradient);">
+                            <i class="bi bi-journal-text text-white" style="font-size:3rem;"></i>
+                        </div>
+                        {% endif %}
+                        <div class="blog-body">
+                            <div class="mb-2">
+                                {% for tag in post.get_tags|slice:":2" %}
+                                    <span class="blog-tag">{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                            <h5 class="fw-bold mb-2" style="color:var(--text);">{{ post.title }}</h5>
+                            <p class="text-muted small mb-3">{{ post.excerpt|default:post.content|truncatewords:15 }}</p>
+                            <small class="text-muted"><i class="bi bi-calendar"></i> {{ post.created_at|date:"M d, Y" }}</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="{% url 'blog_list' %}" class="btn-gradient">
+                <i class="bi bi-journal-bookmark"></i> View All Posts
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ==================== CONTACT CTA ==================== -->
+<section id="contact" class="section-padding" style="background:var(--gradient);color:#fff;">
+    <div class="container text-center" data-aos="zoom-in">
+        <h2 class="display-5 fw-bold mb-3">Let's Work Together</h2>
+        <p class="lead mb-4">Have a project in mind? I'd love to hear about it.</p>
+        <a href="{% url 'contact' %}" class="btn btn-light btn-lg px-5 py-3 rounded-pill fw-bold">
+            <i class="bi bi-send"></i> Get In Touch
+        </a>
     </div>
 </section>
 

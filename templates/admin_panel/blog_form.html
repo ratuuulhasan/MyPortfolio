@@ -1,0 +1,28 @@
+{% extends 'admin_panel/base_admin.html' %}
+{% block page_title %}{{ action }}{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <div class="p-4">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+                {% if field.field.widget.input_type == 'checkbox' %}
+                    <div class="form-check">
+                        {{ field }}
+                        <label class="form-check-label fw-semibold">{{ field.label }}</label>
+                    </div>
+                {% else %}
+                    <label class="form-label fw-semibold">{{ field.label }}</label>
+                    {{ field }}
+                {% endif %}
+                {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
+            </div>
+            {% endfor %}
+            <button class="btn btn-gradient"><i class="bi bi-check2"></i> Save</button>
+            <a href="{% url 'admin_blogs' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
