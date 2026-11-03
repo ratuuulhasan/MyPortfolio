@@ -16,7 +16,7 @@
                     <span id="typed" class="typed-text" data-words="{{ profile.title|default:'Full Stack Developer' }}|Web Designer|Problem Solver|Freelancer"></span><span class="cursor-blink"></span>
                 </h2>
                 <p class="fs-5 text-muted mb-4" style="max-width:560px;">
-                    {{ profile.bio|default:"Passionate developer building beautiful, functional, and user-friendly web experiences."|truncatewords:30 }}
+                    {{ profile.short_bio|default:profile.bio|truncatewords:30 }}
                 </p>
                 <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
                     <a href="#contact" class="btn-gradient">

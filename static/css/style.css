@@ -211,31 +211,34 @@ h1, h2, h3, h4, h5 { font-family: 'Space Grotesk', sans-serif; }
     51%, 100% { opacity: 0; }
 }
 
+/* ============ NEW HERO AVATAR STYLE ============ */
 .hero-avatar-wrap {
     position: relative;
     display: inline-block;
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    animation: blobMorph 8s ease-in-out infinite alternate, floatAvatar 6s ease-in-out infinite;
+    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
 }
-.hero-avatar-wrap::before {
-    content: '';
-    position: absolute;
-    inset: -10px;
-    background: var(--gradient);
-    border-radius: 50%;
-    animation: spin 8s linear infinite;
-    z-index: -1;
-    filter: blur(15px);
-    opacity: 0.7;
+
+@keyframes blobMorph {
+    0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+    100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
 }
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+
+@keyframes floatAvatar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
 }
 
 .hero-avatar {
-    width: 280px; height: 280px;
-    border-radius: 50%;
+    width: 280px; 
+    height: 280px;
+    border-radius: inherit;
     object-fit: cover;
-    border: 6px solid var(--bg-card);
     box-shadow: var(--shadow-hover);
 }
 
@@ -550,4 +553,98 @@ h1, h2, h3, h4, h5 { font-family: 'Space Grotesk', sans-serif; }
     .hero-avatar { width: 200px; height: 200px; }
     .section-padding { padding: 60px 0; }
     .navbar-custom .nav-link::after { display: none; }
+}
+
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .bg-white,
+[data-theme="dark"] .bg-light {
+    background-color: var(--bg-card) !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+}
+
+[data-theme="dark"] label,
+[data-theme="dark"] .form-label,
+[data-theme="dark"] h1, 
+[data-theme="dark"] h2, 
+[data-theme="dark"] h3, 
+[data-theme="dark"] h4, 
+[data-theme="dark"] h5, 
+[data-theme="dark"] h6,
+[data-theme="dark"] .text-dark {
+    color: var(--text) !important;
+}
+
+.form-control::placeholder {
+    color: var(--text-muted) !important;
+    opacity: 0.7;
+}
+
+[data-theme="dark"] .table {
+    --bs-table-bg: transparent !important;
+    --bs-table-color: var(--text) !important;
+    --bs-table-border-color: var(--border) !important;
+    --bs-table-striped-bg: rgba(255, 255, 255, 0.05) !important;
+    --bs-table-hover-bg: rgba(255, 255, 255, 0.08) !important;
+    --bs-table-hover-color: var(--text) !important;
+    color: var(--text) !important;
+}
+
+[data-theme="dark"] .table th,
+[data-theme="dark"] .table td {
+    background-color: transparent !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+}
+
+[data-theme="dark"] .table thead th {
+    color: var(--text-muted) !important;
+    background-color: var(--bg) !important;
+    border-bottom: 2px solid var(--border) !important;
+}
+
+[data-theme="dark"] .table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+[data-theme="dark"] .admin-card {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border) !important;
+}
+[data-theme="dark"] .admin-card .border-bottom {
+    border-color: var(--border) !important;
+}
+
+[data-theme="dark"] .btn-secondary {
+    background-color: #334155;
+    border-color: #334155;
+    color: #fff;
+}
+[data-theme="dark"] .btn-secondary:hover {
+    background-color: #475569;
+    border-color: #475569;
+}
+
+[data-theme="dark"] .btn-outline-primary {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+[data-theme="dark"] .btn-outline-primary:hover {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+[data-theme="dark"] .btn-outline-danger {
+    color: #f87171;
+    border-color: #f87171;
+}
+[data-theme="dark"] .btn-outline-danger:hover {
+    background-color: #f87171;
+    color: #fff;
+}
+
+[data-theme="dark"] select option {
+    background-color: var(--bg-card);
+    color: var(--text);
 }
