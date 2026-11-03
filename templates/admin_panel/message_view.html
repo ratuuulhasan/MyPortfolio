@@ -1,0 +1,18 @@
+{% extends 'admin_panel/base_admin.html' %}
+{% block page_title %}Message{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h5>{{ message.subject }}</h5>
+        <p class="text-muted mb-1">
+            From: <strong>{{ message.name }}</strong> &lt;{{ message.email }}&gt;
+        </p>
+        <p class="text-muted small">{{ message.created_at }}</p>
+        <hr>
+        <p>{{ message.message|linebreaks }}</p>
+        <hr>
+        <a href="mailto:{{ message.email }}" class="btn btn-primary">Reply via Email</a>
+        <a href="{% url 'admin_messages' %}" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+{% endblock %}

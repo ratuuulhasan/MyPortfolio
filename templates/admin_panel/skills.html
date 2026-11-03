@@ -1,0 +1,34 @@
+{% extends 'admin_panel/base_admin.html' %}
+{% block page_title %}Skills{% endblock %}
+{% block content %}
+<a href="{% url 'admin_skill_add' %}" class="btn btn-primary mb-3">
+    <i class="bi bi-plus"></i> Add Skill
+</a>
+<div class="card">
+    <table class="table table-hover mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Name</th><th>Category</th><th>Level</th><th>Order</th>
+                <th style="width:150px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for skill in skills %}
+            <tr>
+                <td><i class="{{ skill.icon }} me-2"></i>{{ skill.name }}</td>
+                <td>{{ skill.get_category_display }}</td>
+                <td>{{ skill.level }}%</td>
+                <td>{{ skill.order }}</td>
+                <td>
+                    <a href="{% url 'admin_skill_edit' skill.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <a href="{% url 'admin_skill_delete' skill.pk %}" class="btn btn-sm btn-outline-danger"
+                       onclick="return confirm('Delete this skill?')">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="text-center text-muted py-4">No skills yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

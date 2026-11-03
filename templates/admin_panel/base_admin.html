@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Admin{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        body { background: #f4f6f9; }
+        .sidebar { background: #1e293b; min-height: 100vh; padding: 0; }
+        .sidebar h5 { color: #fff; padding: 20px; margin: 0; border-bottom: 1px solid #334155; }
+        .sidebar a {
+            color: #94a3b8; padding: 12px 20px; display: block;
+            text-decoration: none; border-left: 3px solid transparent;
+            transition: all .2s;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background: #334155; color: #fff; border-left-color: #0d6efd;
+        }
+        .main { padding: 20px; }
+        .card { border: none; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+        @media (max-width: 767px) {
+            .sidebar { min-height: auto; }
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 sidebar p-0">
+            <h5><i class="bi bi-speedometer2"></i> Admin Panel</h5>
+            <a href="{% url 'admin_dashboard' %}"><i class="bi bi-house"></i> Dashboard</a>
+            <a href="{% url 'admin_profile' %}"><i class="bi bi-person"></i> Profile</a>
+            <a href="{% url 'admin_skills' %}"><i class="bi bi-star"></i> Skills</a>
+            <a href="{% url 'admin_projects' %}"><i class="bi bi-folder"></i> Projects</a>
+            <a href="{% url 'admin_experiences' %}"><i class="bi bi-briefcase"></i> Experience</a>
+            <a href="{% url 'admin_educations' %}"><i class="bi bi-mortarboard"></i> Education</a>
+            <a href="{% url 'admin_social_links' %}"><i class="bi bi-link-45deg"></i> Social Links</a>
+            <a href="{% url 'admin_messages' %}"><i class="bi bi-envelope"></i> Messages</a>
+            <a href="{% url 'admin_settings' %}"><i class="bi bi-gear"></i> Settings</a>
+            <a href="{% url 'home' %}" target="_blank"><i class="bi bi-box-arrow-up-right"></i> View Site</a>
+            <a href="{% url 'admin_logout' %}" class="text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10 main">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="mb-0">{% block page_title %}Admin{% endblock %}</h3>
+                <span class="text-muted small">Hi, {{ user.username }}</span>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                    {{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
