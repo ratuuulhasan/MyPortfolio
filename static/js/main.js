@@ -96,3 +96,41 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(b);
     });
 });
+
+// ============ SMOOTH SCROLL & REMOVE HASH ============
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a[href^="/#"], a[href^="#"]');
+    
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            const targetId = href.replace('/#', '').replace('#', '');
+            
+            if (!targetId) return; 
+
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                e.preventDefault(); 
+                const offset = 80; 
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+
+                // URL থেকে # মুছে ফেলার জন্য
+                history.pushState("", document.title, window.location.pathname + window.location.search);
+            }
+        });
+    });
+
+    // সরাসরি লোড হওয়ার সময় URL-এ # থাকলে তা মুছে ফেলার জন্য
+    if (window.location.hash) {
+        setTimeout(() => {
+            history.replaceState(null, null, window.location.pathname + window.location.search);
+        }, 100);
+    }
+});

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- ==================== HERO ==================== -->
+<!-- ১. HERO SECTION -->
 <section id="home" class="hero-section">
     <div class="container">
         <div class="row align-items-center g-5 hero-content">
@@ -16,7 +16,7 @@
                     <span id="typed" class="typed-text" data-words="{{ profile.title|default:'Full Stack Developer' }}|Web Designer|Problem Solver|Freelancer"></span><span class="cursor-blink"></span>
                 </h2>
                 <p class="fs-5 text-muted mb-4" style="max-width:560px;">
-                    {{ profile.short_bio|default:profile.bio|truncatewords:30 }}
+                    {{ profile.short_bio|default:profile.bio|default:"Passionate developer building beautiful, functional, and user-friendly web experiences."|truncatewords:30 }}
                 </p>
                 <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
                     <a href="#contact" class="btn-gradient">
@@ -40,13 +40,12 @@
     </div>
 </section>
 
-<!-- ==================== ABOUT ==================== -->
+<!-- ২. ABOUT SECTION -->
 <section id="about" class="section-padding">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
             <span class="section-eyebrow">About Me</span>
             <h2 class="section-title">Who I Am</h2>
-            <p class="section-subtitle">A brief story about my journey</p>
         </div>
         <div class="row justify-content-center">
             <div class="col-md-9" data-aos="fade-up" data-aos-delay="100">
@@ -84,14 +83,71 @@
     </div>
 </section>
 
-<!-- ==================== SKILLS ==================== -->
+<!-- ৩. EDUCATION SECTION -->
+{% if site_settings.show_education and educations %}
+<section id="education" class="section-padding">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-eyebrow">Academic</span>
+            <h2 class="section-title">Education</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <div class="timeline">
+                    {% for edu in educations %}
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                        <div class="d-flex justify-content-between flex-wrap">
+                            <h5 class="fw-bold mb-1">{{ edu.degree }}</h5>
+                            <span class="small text-muted">{{ edu.year }}</span>
+                        </div>
+                        <p class="fw-semibold mb-2" style="color:var(--primary);">{{ edu.institute }}</p>
+                        <p class="mb-0 text-muted">{{ edu.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ৪. EXPERIENCE SECTION -->
+{% if site_settings.show_experience and experiences %}
+<section id="experience" class="section-padding" style="background:var(--bg-card);">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-eyebrow">Career</span>
+            <h2 class="section-title">Experience</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <div class="timeline">
+                    {% for exp in experiences %}
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                        <div class="d-flex justify-content-between flex-wrap">
+                            <h5 class="fw-bold mb-1">{{ exp.role }}</h5>
+                            <span class="small text-muted">
+                                {{ exp.start_date|date:"M Y" }} — {{ exp.end_date|date:"M Y"|default:"Present" }}
+                            </span>
+                        </div>
+                        <p class="fw-semibold mb-2" style="color:var(--primary);">{{ exp.company }}</p>
+                        <p class="mb-0 text-muted">{{ exp.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- SKILLS SECTION -->
 {% if site_settings.show_skills and skills %}
 <section id="skills" class="section-padding" style="background:var(--bg-card);">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
             <span class="section-eyebrow">Expertise</span>
             <h2 class="section-title">My Skills</h2>
-            <p class="section-subtitle">Technologies I've worked with</p>
         </div>
         <div class="row g-3">
             {% for skill in skills %}
@@ -112,14 +168,13 @@
 </section>
 {% endif %}
 
-<!-- ==================== PROJECTS ==================== -->
+<!-- ৫. PROJECTS SECTION -->
 {% if site_settings.show_projects and projects %}
 <section id="projects" class="section-padding">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
             <span class="section-eyebrow">Portfolio</span>
             <h2 class="section-title">Featured Projects</h2>
-            <p class="section-subtitle">Some of my recent work</p>
         </div>
         <div class="row g-4">
             {% for project in projects %}
@@ -162,14 +217,13 @@
 </section>
 {% endif %}
 
-<!-- ==================== CERTIFICATIONS (NEW) ==================== -->
+<!-- ৬. CERTIFICATIONS SECTION -->
 {% if certifications %}
 <section id="certifications" class="section-padding" style="background:var(--bg-card);">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
             <span class="section-eyebrow">Achievements</span>
             <h2 class="section-title">Certifications</h2>
-            <p class="section-subtitle">Professional certifications & credentials</p>
         </div>
         <div class="row g-4">
             {% for cert in certifications %}
@@ -206,65 +260,7 @@
 </section>
 {% endif %}
 
-<!-- ==================== EXPERIENCE ==================== -->
-{% if site_settings.show_experience and experiences %}
-<section id="experience" class="section-padding">
-    <div class="container">
-        <div class="section-header" data-aos="fade-up">
-            <span class="section-eyebrow">Career</span>
-            <h2 class="section-title">Experience</h2>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-9">
-                <div class="timeline">
-                    {% for exp in experiences %}
-                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                        <div class="d-flex justify-content-between flex-wrap">
-                            <h5 class="fw-bold mb-1">{{ exp.role }}</h5>
-                            <span class="small text-muted">
-                                {{ exp.start_date|date:"M Y" }} — {{ exp.end_date|date:"M Y"|default:"Present" }}
-                            </span>
-                        </div>
-                        <p class="fw-semibold mb-2" style="color:var(--primary);">{{ exp.company }}</p>
-                        <p class="mb-0 text-muted">{{ exp.description }}</p>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-{% endif %}
-
-<!-- ==================== EDUCATION ==================== -->
-{% if site_settings.show_education and educations %}
-<section id="education" class="section-padding" style="background:var(--bg-card);">
-    <div class="container">
-        <div class="section-header" data-aos="fade-up">
-            <span class="section-eyebrow">Academic</span>
-            <h2 class="section-title">Education</h2>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-9">
-                <div class="timeline">
-                    {% for edu in educations %}
-                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                        <div class="d-flex justify-content-between flex-wrap">
-                            <h5 class="fw-bold mb-1">{{ edu.degree }}</h5>
-                            <span class="small text-muted">{{ edu.year }}</span>
-                        </div>
-                        <p class="fw-semibold mb-2" style="color:var(--primary);">{{ edu.institute }}</p>
-                        <p class="mb-0 text-muted">{{ edu.description }}</p>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-{% endif %}
-
-<!-- ==================== BLOG PREVIEW (NEW) ==================== -->
+<!-- ৮. BLOG PREVIEW  -->
 {% if recent_posts %}
 <section id="blog" class="section-padding">
     <div class="container">
@@ -276,43 +272,35 @@
         <div class="row g-4">
             {% for post in recent_posts %}
             <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                <a href="{% url 'blog_detail' post.slug %}" class="text-decoration-none">
-                    <div class="blog-card">
-                        {% if post.cover_image %}
-                        <div class="overflow-hidden">
-                            <img src="{{ post.cover_image.url }}" class="blog-image" alt="{{ post.title }}">
-                        </div>
-                        {% else %}
-                        <div class="blog-image d-flex align-items-center justify-content-center"
-                             style="background:var(--gradient);">
-                            <i class="bi bi-journal-text text-white" style="font-size:3rem;"></i>
-                        </div>
-                        {% endif %}
-                        <div class="blog-body">
-                            <div class="mb-2">
-                                {% for tag in post.get_tags|slice:":2" %}
-                                    <span class="blog-tag">{{ tag }}</span>
-                                {% endfor %}
-                            </div>
-                            <h5 class="fw-bold mb-2" style="color:var(--text);">{{ post.title }}</h5>
-                            <p class="text-muted small mb-3">{{ post.excerpt|default:post.content|truncatewords:15 }}</p>
-                            <small class="text-muted"><i class="bi bi-calendar"></i> {{ post.created_at|date:"M d, Y" }}</small>
-                        </div>
+                <div class="blog-card">
+                    {% if post.cover_image %}
+                    <div class="overflow-hidden">
+                        <img src="{{ post.cover_image.url }}" class="blog-image" alt="{{ post.title }}">
                     </div>
-                </a>
+                    {% else %}
+                    <div class="blog-image d-flex align-items-center justify-content-center"
+                         style="background:var(--gradient);">
+                        <i class="bi bi-journal-text text-white" style="font-size:3rem;"></i>
+                    </div>
+                    {% endif %}
+                    <div class="blog-body">
+                        <div class="mb-2">
+                            {% for tag in post.get_tags|slice:":2" %}
+                                <span class="blog-tag">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                        <h5 class="fw-bold mb-2" style="color:var(--text);">{{ post.title }}</h5>
+                        <p class="text-muted small mb-3">{{ post.excerpt|default:post.content|truncatewords:20 }}</p>
+                        <small class="text-muted"><i class="bi bi-calendar"></i> {{ post.created_at|date:"M d, Y" }}</small>
+                    </div>
+                </div>
             </div>
             {% endfor %}
         </div>
-        <div class="text-center mt-5" data-aos="fade-up">
-            <a href="{% url 'blog_list' %}" class="btn-gradient">
-                <i class="bi bi-journal-bookmark"></i> View All Posts
-            </a>
-        </div>
     </div>
 </section>
-{% endif %}
 
-<!-- ==================== CONTACT CTA ==================== -->
+<!-- ৭. CONTACT SECTION (Get In Touch) -->
 <section id="contact" class="section-padding" style="background:var(--gradient);color:#fff;">
     <div class="container text-center" data-aos="zoom-in">
         <h2 class="display-5 fw-bold mb-3">Let's Work Together</h2>
@@ -322,5 +310,7 @@
         </a>
     </div>
 </section>
+
+{% endif %}
 
 {% endblock %}

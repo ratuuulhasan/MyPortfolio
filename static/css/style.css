@@ -648,3 +648,37 @@ h1, h2, h3, h4, h5 { font-family: 'Space Grotesk', sans-serif; }
     background-color: var(--bg-card);
     color: var(--text);
 }
+
+
+[data-theme="dark"] input[type="file"]::file-selector-button {
+    background-color: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+[data-theme="dark"] input[type="file"]::file-selector-button:hover {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+[data-theme="dark"] input[type="color"] {
+    background-color: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    height: 45px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+[data-theme="dark"] .clearable-file-input a,
+[data-theme="dark"] .clearable-file-input label,
+[data-theme="dark"] a[href*="clear"] {
+    color: var(--primary) !important;
+    text-decoration: none;
+}
+[data-theme="dark"] a[href*="clear"]:hover {
+    text-decoration: underline;
+}
