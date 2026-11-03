@@ -237,8 +237,10 @@ h1, h2, h3, h4, h5 { font-family: 'Space Grotesk', sans-serif; }
 .hero-avatar {
     width: 280px; 
     height: 280px;
-    border-radius: inherit;
-    object-fit: cover;
+    border-radius: inherit; 
+    object-fit: contain;
+    background-color: #ffffff;
+    padding: 5px;
     box-shadow: var(--shadow-hover);
 }
 
@@ -423,14 +425,18 @@ h1, h2, h3, h4, h5 { font-family: 'Space Grotesk', sans-serif; }
     transform: translateY(-6px) rotate(-1deg);
     box-shadow: var(--shadow-hover);
 }
+
 .cert-image {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
-    background: linear-gradient(135deg, #e0e7ff, #fce7f3);
+    height: 250px;
+    object-fit: contain;
+    background-color: var(--bg);
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
 }
+
 [data-theme="dark"] .cert-image {
-    background: linear-gradient(135deg, #1e293b, #3730a3);
+    background-color: var(--bg-card);
 }
 
 /* Blog cards */
