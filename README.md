@@ -59,94 +59,153 @@ A fully dynamic, highly customizable, and premium portfolio website built with *
 ## 📂 Project Structure
 
 portfolio_project/
+
 │
+
 ├── manage.py
+
 ├── requirements.txt
+
 ├── .env                  # (Secret environment variables)
+
 ├── README.md
+
 │
+
 ├── portfolio_project/    # Main Django Configuration
+
 │   ├── settings.py
+
 │   ├── urls.py
+
 │   └── wsgi.py
+
 │
+
 ├── portfolio/            # Main App (Pages & Admin Panel)
+
 │   ├── models.py         # Database schemas
+
 │   ├── views.py          # Business logic (Public & Admin)
+
 │   ├── forms.py          # Django Forms with Bootstrap styling
+
 │   ├── urls.py           # Route handling
+
 │   └── context_processors.py # Global variables (Profile, Settings)
+
 │
+
 ├── static/               # Static Assets
+
 │   ├── css/style.css     # Custom Premium CSS
+
 │   └── js/main.js        # Animations, Dark Mode, Slider logic
+
 │
+
 └── templates/            # HTML Templates
+
     ├── base.html         # Master layout
+    
     ├── public/           # Frontend pages (home, blog_detail, contact)
+    
     ├── admin_panel/      # Custom Admin Panel Templates
+    
     └── partials/         # Navbar, Footer
 
+## 🚀 Getting Started (Local Setup)
 
-Footer
-🚀 Getting Started (Local Setup)
 Follow these steps to run the project on your local machine.
 
 Prerequisites
+
 Python 3.10+
 
 PostgreSQL installed and running (or you can use SQLite by changing settings).
 
 1. Clone the Repository
+
 bash
+
 git clone https://github.com/yourusername/portfolio_project.git
+
 cd portfolio_project
+
 2. Create a Virtual Environment
+
 Windows:
 
 bash
+
 python -m venv .venv
+
 .venv\Scripts\activate
+
 Mac/Linux:
 
 bash
+
 python3 -m venv .venv
+
 source .venv/bin/activate
+
 3. Install Dependencies
+
 bash
+
 pip install -r requirements.txt
+
 4. Setup Environment Variables
+
 Create a .env file in the root directory (where manage.py is located) and add the following variables:
 
 env
+
 SECRET_KEY=your_super_secret_django_key
+
 DEBUG=True
+
 DB_NAME=portfolio_db
+
 DB_USER=postgres
+
 DB_PASSWORD=your_password
+
 DB_HOST=localhost
+
 DB_PORT=5432
 
 # Email Setup (For contact form notifications)
+
 EMAIL_HOST_USER=your_email@gmail.com
+
 EMAIL_HOST_PASSWORD=your_gmail_app_password
+
 5. Apply Migrations & Create Superuser
+
 bash
+
 python manage.py makemigrations
+
 python manage.py migrate
+
 python manage.py createsuperuser
+
 (Follow the prompts to set your admin username, email, and password. This is what you will use to log into the custom admin panel).
 
 6. Run the Server
+
 bash
+
 python manage.py runserver
 
-
-
 ## ☁️ Deployment Guide (Render / Railway)
+
 Database: Create a free PostgreSQL database on Neon.tech or Supabase.
 
-Static Files: Make sure whitenoise is installed and configured in settings.py (add whitenoise.middleware.WhiteNoiseMiddleware to middleware).
+Static Files: Make sure whitenoise is installed and configured in settings.py (add 
+whitenoise.middleware.WhiteNoiseMiddleware to middleware).
 
 Hosting: Create a new Web Service on Render. Connect your GitHub repo.
 
