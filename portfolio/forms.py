@@ -1,9 +1,9 @@
 from django import forms
-from .models import *
-
+from .models import (Profile, SiteSettings, Skill, Project,
+                     Experience, Education, SocialLink, Message,
+                     Blog, Certification, Comment)
 
 class BootstrapMixin:
-    """Every field gets Bootstrap 'form-control' class automatically."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
@@ -15,17 +15,12 @@ class BootstrapMixin:
             else:
                 w.attrs.setdefault('class', 'form-control')
 
-
 class ProfileForm(BootstrapMixin, forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['name', 'title', 'short_bio', 'bio', 'profile_image',
                   'email', 'phone', 'location', 'cv']
-        widgets = {
-            'bio': forms.Textarea(attrs={'rows': 4}),
-            'short_bio': forms.Textarea(attrs={'rows': 2}),
-            }
-
+        widgets = {'bio': forms.Textarea(attrs={'rows': 4})}
 
 class SiteSettingsForm(BootstrapMixin, forms.ModelForm):
     class Meta:
@@ -38,12 +33,10 @@ class SiteSettingsForm(BootstrapMixin, forms.ModelForm):
             'theme_color': forms.TextInput(attrs={'type': 'color'}),
         }
 
-
 class SkillForm(BootstrapMixin, forms.ModelForm):
     class Meta:
         model = Skill
         fields = ['name', 'category', 'level', 'icon', 'order']
-
 
 class ProjectForm(BootstrapMixin, forms.ModelForm):
     class Meta:
@@ -51,7 +44,6 @@ class ProjectForm(BootstrapMixin, forms.ModelForm):
         fields = ['title', 'description', 'image', 'tech_stack',
                   'live_url', 'github_url', 'featured', 'order']
         widgets = {'description': forms.Textarea(attrs={'rows': 4})}
-
 
 class ExperienceForm(BootstrapMixin, forms.ModelForm):
     class Meta:
@@ -63,26 +55,22 @@ class ExperienceForm(BootstrapMixin, forms.ModelForm):
             'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
-
 class EducationForm(BootstrapMixin, forms.ModelForm):
     class Meta:
         model = Education
         fields = ['institute', 'degree', 'year', 'description']
         widgets = {'description': forms.Textarea(attrs={'rows': 4})}
 
-
 class SocialLinkForm(BootstrapMixin, forms.ModelForm):
     class Meta:
         model = SocialLink
         fields = ['platform', 'url', 'icon', 'order']
-
 
 class ContactForm(BootstrapMixin, forms.ModelForm):
     class Meta:
         model = Message
         fields = ['name', 'email', 'subject', 'message']
         widgets = {'message': forms.Textarea(attrs={'rows': 5})}
-
 
 class BlogForm(BootstrapMixin, forms.ModelForm):
     class Meta:
@@ -94,7 +82,6 @@ class BlogForm(BootstrapMixin, forms.ModelForm):
             'content': forms.Textarea(attrs={'rows': 14}),
         }
 
-
 class CertificationForm(BootstrapMixin, forms.ModelForm):
     class Meta:
         model = Certification
@@ -104,7 +91,6 @@ class CertificationForm(BootstrapMixin, forms.ModelForm):
             'issue_date': forms.DateInput(attrs={'type': 'date'}),
             'expiry_date': forms.DateInput(attrs={'type': 'date'}),
         }
-
 
 class CommentForm(BootstrapMixin, forms.ModelForm):
     class Meta:

@@ -6,18 +6,17 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('project/<int:pk>/', views.project_detail, name='project_detail'),
     path('contact/', views.contact, name='contact'),
-    
-    # Blog Detail 
     path('blog/<slug:slug>/', views.blog_detail, name='blog_detail'),
 
-    # Admin auth
+    # Admin Auth
     path('admin-panel/login/', views.admin_login, name='admin_login'),
     path('admin-panel/logout/', views.admin_logout, name='admin_logout'),
-    path('admin-panel/change-password/', views.admin_change_password, name='admin_change_password'), # নতুন যুক্ত করা হলো
+    path('admin-panel/change-password/', views.admin_change_password, name='admin_change_password'),
 
-    # Admin dashboard
+    # Admin Dashboard & Profile
     path('admin-panel/', views.admin_dashboard, name='admin_dashboard'),
     path('admin-panel/profile/', views.admin_profile, name='admin_profile'),
+    path('admin-panel/settings/', views.admin_settings, name='admin_settings'),
 
     # Skills
     path('admin-panel/skills/', views.admin_skills, name='admin_skills'),
@@ -49,23 +48,20 @@ urlpatterns = [
     path('admin-panel/social-links/<int:pk>/edit/', views.admin_social_edit, name='admin_social_edit'),
     path('admin-panel/social-links/<int:pk>/delete/', views.admin_social_delete, name='admin_social_delete'),
 
-    # Messages
-    path('admin-panel/messages/', views.admin_messages, name='admin_messages'),
-    path('admin-panel/messages/<int:pk>/', views.admin_message_view, name='admin_message_view'),
-    path('admin-panel/messages/<int:pk>/delete/', views.admin_message_delete, name='admin_message_delete'),
-
-    # Settings
-    path('admin-panel/settings/', views.admin_settings, name='admin_settings'),
-
-    # Admin Blog
+    # Blog
     path('admin-panel/blogs/', views.admin_blogs, name='admin_blogs'),
     path('admin-panel/blogs/add/', views.admin_blog_add, name='admin_blog_add'),
     path('admin-panel/blogs/<int:pk>/edit/', views.admin_blog_edit, name='admin_blog_edit'),
     path('admin-panel/blogs/<int:pk>/delete/', views.admin_blog_delete, name='admin_blog_delete'),
 
-    # Admin Certification
+    # Certifications
     path('admin-panel/certifications/', views.admin_certifications, name='admin_certifications'),
     path('admin-panel/certifications/add/', views.admin_certification_add, name='admin_certification_add'),
     path('admin-panel/certifications/<int:pk>/edit/', views.admin_certification_edit, name='admin_certification_edit'),
     path('admin-panel/certifications/<int:pk>/delete/', views.admin_certification_delete, name='admin_certification_delete'),
+
+    # Messages
+    path('admin-panel/messages/', views.admin_messages, name='admin_messages'),
+    path('admin-panel/messages/<int:pk>/', views.admin_message_view, name='admin_message_view'),
+    path('admin-panel/messages/<int:pk>/delete/', views.admin_message_delete, name='admin_message_delete'),
 ]
