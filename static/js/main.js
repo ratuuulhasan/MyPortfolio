@@ -121,16 +121,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     behavior: 'smooth'
                 });
 
-                // URL থেকে # মুছে ফেলার জন্য
                 history.pushState("", document.title, window.location.pathname + window.location.search);
             }
         });
     });
 
-    // সরাসরি লোড হওয়ার সময় URL-এ # থাকলে তা মুছে ফেলার জন্য
     if (window.location.hash) {
         setTimeout(() => {
             history.replaceState(null, null, window.location.pathname + window.location.search);
         }, 100);
+    }
+});
+
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    if(preloader) {
+        preloader.style.opacity = '0';
+        setTimeout(() => preloader.style.display = 'none', 500);
     }
 });

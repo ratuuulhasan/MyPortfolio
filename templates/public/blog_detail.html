@@ -27,12 +27,53 @@
         </div>
         {% endif %}
 
+        <!-- Blog Content Card -->
         <div class="card-custom" data-aos="fade-up" data-aos-delay="200">
             <div style="line-height:1.9; font-size:1.05rem;">
                 {{ post.content|linebreaks }}
             </div>
         </div>
 
+        <div class="mt-5 card-custom" data-aos="fade-up">
+            <h4 class="fw-bold mb-4"><i class="bi bi-chat-dots"></i> Comments ({{ comments.count }})</h4>
+            
+            {% for comment in comments %}
+                <div class="p-3 mb-3" style="background: var(--bg); border-radius: 10px; border: 1px solid var(--border);">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong style="color: var(--primary);"><i class="bi bi-person-circle"></i> {{ comment.name }}</strong> 
+                        <small class="text-muted">{{ comment.created_at|date:"M d, Y" }}</small>
+                    </div>
+                    <p class="mb-0">{{ comment.body }}</p>
+                </div>
+            {% empty %}
+                <p class="text-muted mb-4">No comments yet. Be the first to share your thoughts!</p>
+            {% endfor %}
+            
+            <hr class="my-4" style="border-color: var(--border);">
+            
+            <!-- Comment Form -->
+            <h5 class="fw-bold mb-3">Leave a Comment</h5>
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Name</label>
+                        {{ comment_form.name }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Email</label>
+                        {{ comment_form.email }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Comment</label>
+                    {{ comment_form.body }}
+                </div>
+                <button type="submit" class="btn-gradient"><i class="bi bi-send"></i> Post Comment</button>
+            </form>
+        </div>
+
+        <!-- Related Posts -->
         {% if related %}
         <div class="mt-5">
             <h3 class="fw-bold mb-4">Related Posts</h3>

@@ -104,3 +104,12 @@ class CertificationForm(BootstrapMixin, forms.ModelForm):
             'issue_date': forms.DateInput(attrs={'type': 'date'}),
             'expiry_date': forms.DateInput(attrs={'type': 'date'}),
         }
+
+
+class CommentForm(BootstrapMixin, forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['name', 'email', 'body']
+        widgets = {
+            'body': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Write your comment...'}),
+        }

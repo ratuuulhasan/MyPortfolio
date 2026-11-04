@@ -1,22 +1,43 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages as msg
+from django.core.mail import send_mail
+from django.conf import settings
+from django.core.paginator import Paginator
+
 from .models import *
 from .forms import *
 
 
 # ==================== PUBLIC VIEWS ====================
 def home(request):
+    query = request.GET.get('q')
+    projects_list = Project.objects.all()
+    blogs_list = Blog.objects.filter(is_published=True)
+
+    # Search Logic
+    if query:
+        projects_list = projects_list.filter(title__icontains=query) | projects_list.filter(description__icontains=query)
+        blogs_list = blogs_list.filter(title__icontains=query) | blogs_list.filter(content__icontains=query)
+
+    # Pagination for Projects (6 per page)
+    paginator = Paginator(projects_list, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
         'profile': Profile.objects.first(),
         'skills': Skill.objects.all(),
-        'projects': Project.objects.all(),
+        'projects': page_obj.object_list, # For the project section
+        'page_obj': page_obj,             # For pagination
         'experiences': Experience.objects.all(),
         'educations': Education.objects.all(),
         'certifications': Certification.objects.all()[:6],
-        'recent_posts': Blog.objects.filter(is_published=True)[:3],
+        'recent_posts': blogs_list[:3],   # Show max 3 latest blogs on home
+        'query': query,
     }
     return render(request, 'public/home.html', context)
 
@@ -35,6 +56,19 @@ def contact(request):
             if admin:
                 obj.user = admin
                 obj.save()
+                
+                # Email Notification Logic
+                try:
+                    send_mail(
+                        subject=f"New Contact Message: {obj.subject}",
+                        message=f"Name: {obj.name}\nEmail: {obj.email}\n\nMessage:\n{obj.message}",
+                        from_email=settings.EMAIL_HOST_USER,
+                        recipient_list=[admin.email],
+                        fail_silently=True,
+                    )
+                except Exception:
+                    pass # Fail silently if email is not configured yet
+                
                 msg.success(request, 'Your message has been sent!')
                 return redirect('contact')
             msg.error(request, 'Admin not configured yet.')
@@ -64,6 +98,20 @@ def admin_login(request):
 def admin_logout(request):
     logout(request)
     return redirect('admin_login')
+
+
+@login_required
+def admin_change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user) # Important!
+            msg.success(request, 'Your password was successfully updated!')
+            return redirect('admin_dashboard')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'admin_panel/change_password.html', {'form': form})
 
 
 # ==================== DASHBOARD ====================
@@ -125,7 +173,7 @@ def admin_skills(request):
 @login_required
 def admin_skill_add(request):
     form = _generic_form(request, SkillForm, redirect_to='admin_skills', action='Add')
-    if hasattr(form, 'is_valid'):   # still rendering form
+    if hasattr(form, 'is_valid'):
         return render(request, 'admin_panel/skill_form.html',
                       {'form': form, 'action': 'Add Skill'})
     return form
@@ -326,17 +374,32 @@ def admin_settings(request):
         form = SiteSettingsForm(instance=obj)
     return render(request, 'admin_panel/settings.html', {'form': form})
 
-# ==================== PUBLIC BLOG ====================
-def blog_list(request):
-    posts = Blog.objects.filter(is_published=True)
-    return render(request, 'public/blog_list.html', {'posts': posts})
 
+# ==================== PUBLIC BLOG ====================
+# blog_list সরিয়ে দেওয়া হয়েছে যেহেতু আপনি হোম পেজেই ব্লগ দেখতে চান
 
 def blog_detail(request, slug):
     post = get_object_or_404(Blog, slug=slug, is_published=True)
     related = Blog.objects.filter(is_published=True).exclude(pk=post.pk)[:3]
-    return render(request, 'public/blog_detail.html',
-                  {'post': post, 'related': related})
+    comments = post.comments.filter(is_active=True)
+    
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.blog = post
+            comment.save()
+            msg.success(request, 'Your comment has been added!')
+            return redirect('blog_detail', slug=post.slug)
+    else:
+        comment_form = CommentForm()
+
+    return render(request, 'public/blog_detail.html', {
+        'post': post, 
+        'related': related,
+        'comments': comments,
+        'comment_form': comment_form
+    })
 
 
 # ==================== ADMIN: BLOG ====================
