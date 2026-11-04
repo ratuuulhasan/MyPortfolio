@@ -48,34 +48,11 @@
             <h2 class="section-title">Who I Am</h2>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-9" data-aos="fade-up" data-aos-delay="100">
-                <div class="card-custom">
-                    <p class="fs-5" style="line-height:1.9;">{{ profile.bio|default:"About info coming soon..." }}</p>
-                    <div class="row mt-4 g-3">
-                        {% if profile.email %}
-                        <div class="col-md-4">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-envelope-fill fs-4" style="color:var(--primary);"></i>
-                                <div><small class="text-muted d-block">Email</small><strong>{{ profile.email }}</strong></div>
-                            </div>
-                        </div>
-                        {% endif %}
-                        {% if profile.phone %}
-                        <div class="col-md-4">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-phone-fill fs-4" style="color:var(--primary);"></i>
-                                <div><small class="text-muted d-block">Phone</small><strong>{{ profile.phone }}</strong></div>
-                            </div>
-                        </div>
-                        {% endif %}
-                        {% if profile.location %}
-                        <div class="col-md-4">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-geo-alt-fill fs-4" style="color:var(--primary);"></i>
-                                <div><small class="text-muted d-block">Location</small><strong>{{ profile.location }}</strong></div>
-                            </div>
-                        </div>
-                        {% endif %}
+            <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+                <div class="about-card-premium">
+                    <div class="about-content">
+                        <h3 class="mb-4 about-title">My Story</h3>
+                        <p class="fs-5 about-text">{{ profile.bio|default:"About info coming soon..." }}</p>
                     </div>
                 </div>
             </div>
@@ -92,18 +69,21 @@
             <h2 class="section-title">Education</h2>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-9">
-                <div class="timeline">
-                    {% for edu in educations %}
-                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                        <div class="d-flex justify-content-between flex-wrap">
-                            <h5 class="fw-bold mb-1">{{ edu.degree }}</h5>
-                            <span class="small text-muted">{{ edu.year }}</span>
+            <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+                <!-- Education Premium Card -->
+                <div class="about-card-premium">
+                    <div class="timeline">
+                        {% for edu in educations %}
+                        <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                            <div class="d-flex justify-content-between flex-wrap">
+                                <h5 class="fw-bold mb-1">{{ edu.degree }}</h5>
+                                <span class="small text-muted">{{ edu.year }}</span>
+                            </div>
+                            <p class="fw-semibold mb-2" style="color:var(--primary);">{{ edu.institute }}</p>
+                            <p class="mb-0 text-muted">{{ edu.description }}</p>
                         </div>
-                        <p class="fw-semibold mb-2" style="color:var(--primary);">{{ edu.institute }}</p>
-                        <p class="mb-0 text-muted">{{ edu.description }}</p>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -113,27 +93,30 @@
 
 <!-- EXPERIENCE SECTION -->
 {% if site_settings.show_experience and experiences %}
-<section id="experience" class="section-padding" style="background:var(--bg-card);">
+<section id="experience" class="section-padding">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
             <span class="section-eyebrow">Career</span>
             <h2 class="section-title">Experience</h2>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-9">
-                <div class="timeline">
-                    {% for exp in experiences %}
-                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                        <div class="d-flex justify-content-between flex-wrap">
-                            <h5 class="fw-bold mb-1">{{ exp.role }}</h5>
-                            <span class="small text-muted">
-                                {{ exp.start_date|date:"M Y" }} — {{ exp.end_date|date:"M Y"|default:"Present" }}
-                            </span>
+            <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+                <!-- Experience Premium Card -->
+                <div class="about-card-premium">
+                    <div class="timeline">
+                        {% for exp in experiences %}
+                        <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                            <div class="d-flex justify-content-between flex-wrap">
+                                <h5 class="fw-bold mb-1">{{ exp.role }}</h5>
+                                <span class="small text-muted">
+                                    {{ exp.start_date|date:"M Y" }} — {{ exp.end_date|date:"M Y"|default:"Present" }}
+                                </span>
+                            </div>
+                            <p class="fw-semibold mb-2" style="color:var(--primary);">{{ exp.company }}</p>
+                            <p class="mb-0 text-muted">{{ exp.description }}</p>
                         </div>
-                        <p class="fw-semibold mb-2" style="color:var(--primary);">{{ exp.company }}</p>
-                        <p class="mb-0 text-muted">{{ exp.description }}</p>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -143,26 +126,33 @@
 
 <!-- SKILLS SECTION -->
 {% if site_settings.show_skills and skills %}
-<section id="skills" class="section-padding" style="background:var(--bg-card);">
+<section id="skills" class="section-padding">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
             <span class="section-eyebrow">Expertise</span>
             <h2 class="section-title">My Skills</h2>
         </div>
-        <div class="row g-3">
-            {% for skill in skills %}
-            <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}50">
-                <div class="skill-item">
-                    <div class="skill-header">
-                        <span><i class="{{ skill.icon }} me-2" style="color:var(--primary);"></i>{{ skill.name }}</span>
-                        <span style="color:var(--primary);">{{ skill.level }}%</span>
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar" data-level="{{ skill.level }}" style="width:0%"></div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+                <!-- Skills Premium Card -->
+                <div class="about-card-premium">
+                    <div class="row g-4">
+                        {% for skill in skills %}
+                        <div class="col-md-6">
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span><i class="{{ skill.icon }} me-2" style="color:var(--primary);"></i>{{ skill.name }}</span>
+                                    <span style="color:var(--primary);">{{ skill.level }}%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" data-level="{{ skill.level }}" style="width:0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
 </section>
@@ -185,8 +175,7 @@
                             <img src="{{ project.image.url }}" class="project-image" alt="{{ project.title }}">
                         </div>
                     {% else %}
-                        <div class="project-image d-flex align-items-center justify-content-center"
-                             style="background:var(--gradient);">
+                        <div class="project-image d-flex align-items-center justify-content-center" style="background:var(--gradient);">
                             <i class="bi bi-code-slash text-white" style="font-size:3rem;"></i>
                         </div>
                     {% endif %}
@@ -198,12 +187,12 @@
                                 <span class="tech-badge">{{ tech }}</span>
                             {% endfor %}
                         </div>
-                        <div class="d-flex gap-2">
-                            <a href="{% url 'project_detail' project.pk %}" class="btn-gradient flex-grow-1 text-center"
-                               style="padding:10px 20px;font-size:.9rem;">View</a>
+                        <div class="d-flex gap-2 mt-auto">
+                            <a href="{% url 'project_detail' project.pk %}" class="btn-gradient flex-grow-1 text-center">
+                                View
+                            </a>
                             {% if project.live_url %}
-                            <a href="{{ project.live_url }}" target="_blank"
-                               class="btn-outline-gradient" style="padding:8px 16px;">
+                            <a href="{{ project.live_url }}" target="_blank" class="btn-outline-gradient">
                                 <i class="bi bi-box-arrow-up-right"></i>
                             </a>
                             {% endif %}
@@ -234,7 +223,7 @@
 
 <!-- CERTIFICATIONS SECTION -->
 {% if certifications %}
-<section id="certifications" class="section-padding" style="background:var(--bg-card);">
+<section id="certifications" class="section-padding">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
             <span class="section-eyebrow">Achievements</span>
@@ -262,7 +251,7 @@
                             {% if cert.expiry_date %} — {{ cert.expiry_date|date:"M Y" }}{% else %} — No Expiry{% endif %}
                         </p>
                         {% if cert.credential_url %}
-                        <a href="{{ cert.credential_url }}" target="_blank" class="btn-outline-gradient w-100 text-center" style="padding:8px;font-size:.85rem;">
+                        <a href="{{ cert.credential_url }}" target="_blank" class="btn-outline-gradient w-100">
                             <i class="bi bi-patch-check"></i> Verify Credential
                         </a>
                         {% endif %}
@@ -294,8 +283,7 @@
                             <img src="{{ post.cover_image.url }}" class="blog-image" alt="{{ post.title }}">
                         </div>
                         {% else %}
-                        <div class="blog-image d-flex align-items-center justify-content-center"
-                             style="background:var(--gradient);">
+                        <div class="blog-image d-flex align-items-center justify-content-center" style="background:var(--gradient);">
                             <i class="bi bi-journal-text text-white" style="font-size:3rem;"></i>
                         </div>
                         {% endif %}
@@ -316,18 +304,22 @@
         </div>
     </div>
 </section>
+{% endif %}
 
-<!-- CONTACT SECTION (Get In Touch) -->
-<section id="contact" class="section-padding" style="background:var(--gradient);color:#fff;">
-    <div class="container text-center" data-aos="zoom-in">
-        <h2 class="display-5 fw-bold mb-3">Let's Work Together</h2>
-        <p class="lead mb-4">Have a project in mind? I'd love to hear about it.</p>
-        <a href="{% url 'contact' %}" class="btn btn-light btn-lg px-5 py-3 rounded-pill fw-bold">
-            <i class="bi bi-send"></i> Get In Touch
+<!-- CONTACT SECTION -->
+<section id="contact" class="section-padding" style="background:var(--gradient);color:#fff; position: relative; overflow: hidden;">
+    <!-- Decorative glowing circle -->
+    <div style="position: absolute; top: -50%; left: -20%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+    
+    <div class="container text-center position-relative" style="z-index: 1;" data-aos="zoom-in">
+        <h2 class="display-5 fw-bold mb-3 text-white">Let's Work Together</h2>
+        <p class="lead mb-5 text-white" style="opacity: 0.9;">Have a project in mind? I'd love to hear about it.</p>
+        
+        <!-- Clear, Visible Button -->
+        <a href="{% url 'contact' %}" class="btn-contact-white">
+            <i class="bi bi-send-fill"></i> Get In Touch
         </a>
     </div>
 </section>
-
-{% endif %}
 
 {% endblock %}

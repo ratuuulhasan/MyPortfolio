@@ -1,23 +1,135 @@
-<footer class="footer">
-    <div class="container text-center">
-        <h4 class="mb-3" style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;">
-            {{ profile_global.name|default:"Portfolio" }}
-        </h4>
-        <p class="text-muted mb-4">{{ profile_global.title|default:"Full Stack Developer" }}</p>
-        
-        <div class="footer-social mb-4">
-            {% for link in social_links_global %}
-                <a href="{{ link.url }}" target="_blank" title="{{ link.platform }}">
-                    <i class="{{ link.icon }}"></i>
-                </a>
-            {% endfor %}
+<footer class="footer-premium">
+    <div class="container">
+        <!-- Top Row -->
+        <div class="row mb-5">
+            <!-- Col 1: Newsletter -->
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <h5 class="footer-heading">
+                    Subscribe to my newsletter to stay<br> in touch with the latest.
+                </h5>
+                <form class="newsletter-form mt-4" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit"><i class="bi bi-send-fill"></i></button>
+                </form>
+            </div>
+
+            <!-- Col 2: Quick Links -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <ul class="footer-nav">
+                    <li><a href="{% url 'home' %}#skills">Our Services</a></li>
+                    <li><a href="{% url 'home' %}#projects">Projects</a></li>
+                    <li><a href="{% url 'home' %}#about">About</a></li>
+                    <li><a href="{% url 'home' %}#contact">Contacts</a></li>
+                    <li><a href="{% url 'home' %}#blog">Blog</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 3: Contact Info (Added Location) -->
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-contact-info">
+                    <span class="footer-label">DROP US A LINE</span>
+                    <a href="mailto:{{ profile_global.email|default:'mail@portfolio.com' }}" class="footer-value">
+                        {{ profile_global.email|default:"mail@portfolio.com" }}
+                    </a>
+                    
+                    <span class="footer-label mt-4 d-block">LET'S CHAT</span>
+                    <a href="tel:{{ profile_global.phone|default:'+1234567890' }}" class="footer-value phone-link">
+                        <i class="bi bi-whatsapp me-1"></i> {{ profile_global.phone|default:"+880 1234 567890" }}
+                    </a>
+
+                    <span class="footer-label mt-4 d-block">LOCATION</span>
+                    <span class="footer-value">
+                        <i class="bi bi-geo-alt-fill me-1" style="color: var(--primary);"></i> {{ profile_global.location|default:"Dhaka, Bangladesh" }}
+                    </span>
+                </div>
+            </div>
         </div>
-        
-        <hr style="border-color:var(--border);">
-        
-        <p class="text-muted small mb-0">
-            &copy; {% now "Y" %} {{ profile_global.name|default:"Portfolio" }}. Built with 
-            <a href="{% url 'admin_login' %}" style="text-decoration: none; color: inherit; cursor: pointer;" title="Secret Admin">❤️</a>
-        </p>
+
+        <!-- Badges Row -->
+        <div class="row mb-5">
+            <div class="col-12 d-flex flex-wrap gap-3">
+                <div class="footer-badge">Clutch <span class="text-danger">★★★★★</span></div>
+                <div class="footer-badge">GoodFirms <span class="text-primary">TOP DEVELOPER</span></div>
+                <div class="footer-badge">Webflow <span class="text-info">PROFESSIONAL PARTNER</span></div>
+                <div class="footer-badge">Prismic <span>PROFESSIONAL PARTNER</span></div>
+                <div class="footer-badge">Sanity <span>PROFESSIONAL PARTNER</span></div>
+            </div>
+        </div>
+
+        <!-- Expandable Services Section -->
+        <div class="footer-services-section mb-4">
+            <div class="footer-accordion" data-bs-toggle="collapse" data-bs-target="#servicesCollapse" role="button" aria-expanded="false" aria-controls="servicesCollapse">
+                <span>Show all services</span>
+                <i class="bi bi-plus-lg" id="servicesIcon"></i>
+            </div>
+            
+            <div class="collapse" id="servicesCollapse">
+                <div class="row g-4 pt-4 pb-2">
+                    <div class="col-md-6">
+                        <div class="service-item"><i class="bi bi-code-square"></i> Full Stack Web Development</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="service-item"><i class="bi bi-server"></i> REST API Development (Django)</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="service-item"><i class="bi bi-database"></i> Database Management (PostgreSQL)</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="service-item"><i class="bi bi-cpu"></i> AI & Python Scripting</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="service-item"><i class="bi bi-phone"></i> Responsive Frontend Design</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="service-item"><i class="bi bi-tools"></i> Website Maintenance & Optimization</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="footer-divider">
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+            
+            <!-- Copyright & Secret Admin (❤️) -->
+            <div class="copyright">
+                &copy; {% now "Y" %} {{ profile_global.name|default:"Ratul Hasan" }}. All rights reserved.
+                <a href="{% url 'admin_login' %}" class="secret-admin-link" title="Secret Admin">❤️</a>
+            </div>
+            
+            <!-- Social Icons -->
+            <div class="footer-socials">
+                {% for link in social_links_global %}
+                    <a href="{{ link.url }}" target="_blank" title="{{ link.platform }}">
+                        <i class="{{ link.icon }}"></i>
+                    </a>
+                {% endfor %}
+            </div>
+
+            <!-- Legal Links -->
+            <div class="footer-legal">
+                <a href="#">Terms and Conditions</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
     </div>
 </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const accordion = document.getElementById('servicesCollapse');
+        const icon = document.getElementById('servicesIcon');
+        
+        if(accordion && icon) {
+            accordion.addEventListener('show.bs.collapse', function () {
+                icon.classList.remove('bi-plus-lg');
+                icon.classList.add('bi-dash-lg');
+            });
+            accordion.addEventListener('hide.bs.collapse', function () {
+                icon.classList.remove('bi-dash-lg');
+                icon.classList.add('bi-plus-lg');
+            });
+        }
+    });
+</script>
