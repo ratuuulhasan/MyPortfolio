@@ -24,12 +24,13 @@ class Profile(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        if self.image:
-            img = Image.open(self.image.path)
+        # এখানে self.image এর জায়গায় self.profile_image হবে
+        if self.profile_image:
+            img = Image.open(self.profile_image.path)
             if img.height > 800 or img.width > 800:
                 output_size = (800, 800)
                 img.thumbnail(output_size)
-                img.save(self.image.path)
+                img.save(self.profile_image.path)
 
 
 class SiteSettings(models.Model):
