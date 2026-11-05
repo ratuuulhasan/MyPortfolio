@@ -108,8 +108,20 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoise সেটিংস (সাইট যাতে 500 Error না দেয়)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# এই লাইনটি যোগ করা হলো, যা আগে মিসিং ছিল
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+# WhiteNoise সেটিংস (ডিজ্যাঙ্গো ৫+ এর জন্য আধুনিক সিস্টেম)
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 WHITENOISE_MANIFEST_STRICT = False # কোনো ফাইল মিসিং থাকলেও সাইট ক্র্যাশ করবে না
 
 MEDIA_URL = '/media/'
@@ -143,5 +155,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='hratul838@gmail.com')
-# আপনার আসল পাসওয়ার্ডটি এখানে ডিফল্ট হিসেবে রাখা হলো (তবে Render-এ Environment Variable দিলে সেটি অগ্রাধিকার পাবে)
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='egcz ebjs dpft sfhu')
