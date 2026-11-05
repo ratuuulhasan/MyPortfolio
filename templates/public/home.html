@@ -16,13 +16,17 @@
                     <span id="typed" class="typed-text" data-words="{{ profile.title|default:'Full Stack Developer' }}|Web Designer|Problem Solver|Freelancer"></span><span class="cursor-blink"></span>
                 </h2>
                 <p class="fs-5 text-muted mb-4" style="max-width:560px;">
-                    {{ profile.short_bio|default:profile.bio|default:"Passionate developer building beautiful, functional, and user-friendly web experiences."|truncatewords:30 }}
+                    {% if profile %}
+                        {{ profile.short_bio|default:profile.bio|default:"Passionate developer building beautiful, functional, and user-friendly web experiences."|truncatewords:30 }}
+                    {% else %}
+                        Passionate developer building beautiful, functional, and user-friendly web experiences.
+                    {% endif %}
                 </p>
                 <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
                     <a href="#contact" class="btn-gradient">
                         <i class="bi bi-send"></i> Hire Me
                     </a>
-                    {% if profile.cv %}
+                    {% if profile and profile.cv %}
                         <a href="{{ profile.cv.url }}" class="btn-outline-gradient" download>
                             <i class="bi bi-download"></i> Download CV
                         </a>
@@ -30,7 +34,7 @@
                 </div>
             </div>
             <div class="col-lg-5 text-center" data-aos="fade-left" data-aos-delay="200">
-                {% if profile.profile_image %}
+                {% if profile and profile.profile_image %}
                 <div class="hero-avatar-wrap">
                     <img src="{{ profile.profile_image.url }}" alt="{{ profile.name }}" class="hero-avatar">
                 </div>
@@ -52,7 +56,13 @@
                 <div class="about-card-premium">
                     <div class="about-content">
                         <h3 class="mb-4 about-title">My Story</h3>
-                        <p class="fs-5 about-text">{{ profile.bio|default:"About info coming soon..." }}</p>
+                        <p class="fs-5 about-text">
+                            {% if profile %}
+                                {{ profile.bio|default:"About info coming soon..." }}
+                            {% else %}
+                                About info coming soon...
+                            {% endif %}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -61,7 +71,7 @@
 </section>
 
 <!-- EDUCATION SECTION -->
-{% if site_settings.show_education and educations %}
+{% if site_settings and site_settings.show_education and educations %}
 <section id="education" class="section-padding">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
@@ -70,7 +80,6 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
-                <!-- Education Premium Card -->
                 <div class="about-card-premium">
                     <div class="timeline">
                         {% for edu in educations %}
@@ -92,7 +101,7 @@
 {% endif %}
 
 <!-- EXPERIENCE SECTION -->
-{% if site_settings.show_experience and experiences %}
+{% if site_settings and site_settings.show_experience and experiences %}
 <section id="experience" class="section-padding">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
@@ -101,7 +110,6 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
-                <!-- Experience Premium Card -->
                 <div class="about-card-premium">
                     <div class="timeline">
                         {% for exp in experiences %}
@@ -125,7 +133,7 @@
 {% endif %}
 
 <!-- SKILLS SECTION -->
-{% if site_settings.show_skills and skills %}
+{% if site_settings and site_settings.show_skills and skills %}
 <section id="skills" class="section-padding">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
@@ -134,7 +142,6 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
-                <!-- Skills Premium Card -->
                 <div class="about-card-premium">
                     <div class="row g-4">
                         {% for skill in skills %}
@@ -159,7 +166,7 @@
 {% endif %}
 
 <!-- PROJECTS SECTION -->
-{% if site_settings.show_projects and projects %}
+{% if site_settings and site_settings.show_projects and projects %}
 <section id="projects" class="section-padding">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
@@ -308,14 +315,12 @@
 
 <!-- CONTACT SECTION -->
 <section id="contact" class="section-padding" style="background:var(--gradient);color:#fff; position: relative; overflow: hidden;">
-    <!-- Decorative glowing circle -->
     <div style="position: absolute; top: -50%; left: -20%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
     
     <div class="container text-center position-relative" style="z-index: 1;" data-aos="zoom-in">
         <h2 class="display-5 fw-bold mb-3 text-white">Let's Work Together</h2>
         <p class="lead mb-5 text-white" style="opacity: 0.9;">Have a project in mind? I'd love to hear about it.</p>
         
-        <!-- Clear, Visible Button -->
         <a href="{% url 'contact' %}" class="btn-contact-white">
             <i class="bi bi-send-fill"></i> Get In Touch
         </a>

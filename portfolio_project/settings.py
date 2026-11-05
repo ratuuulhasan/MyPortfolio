@@ -16,7 +16,7 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
-# CSRF Trusted Origins (Render-এর জন্য জরুরি)
+# CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = [
     'https://ratulsportfolio.onrender.com',
 ]
@@ -78,7 +78,6 @@ if DATABASE_URL:
         )
     }
 else:
-    # লোকাল পিসিতে রান করার জন্য
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -108,12 +107,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# এই লাইনটি যোগ করা হলো, যা আগে মিসিং ছিল
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-# WhiteNoise সেটিংস (ডিজ্যাঙ্গো ৫+ এর জন্য আধুনিক সিস্টেম)
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
@@ -122,7 +119,7 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
-WHITENOISE_MANIFEST_STRICT = False # কোনো ফাইল মিসিং থাকলেও সাইট ক্র্যাশ করবে না
+WHITENOISE_MANIFEST_STRICT = False
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

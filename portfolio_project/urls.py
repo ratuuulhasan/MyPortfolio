@@ -9,7 +9,5 @@ urlpatterns = [
     path('', include('portfolio.urls')),
 ]
 
-# ডেভেলপমেন্টের সময় (লোকালহোস্টে) মিডিয়া ফাইল সার্ভ করার জন্য
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    # স্ট্যাটিক ফাইলের জন্য আলাদা লাইন দেওয়ার দরকার নেই, django.contrib.staticfiles এটি হ্যান্ডেল করে
