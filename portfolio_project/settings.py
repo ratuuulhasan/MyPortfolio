@@ -16,6 +16,10 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
+# CSRF Trusted Origins (Render-এর জন্য জরুরি)
+CSRF_TRUSTED_ORIGINS = [
+    'https://ratulsportfolio.onrender.com',
+]
 
 # ==================== APPLICATIONS ====================
 INSTALLED_APPS = [
@@ -62,15 +66,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio_project.wsgi.application'
 
-
 # ==================== DATABASE ====================
-DATABASE_URL = config('DATABASE_URL', default=None)
-
-import dj_database_url
-import os
-
-# ...
-
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 if DATABASE_URL:
@@ -82,6 +78,7 @@ if DATABASE_URL:
         )
     }
 else:
+    # লোকাল পিসিতে রান করার জন্য
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -93,7 +90,6 @@ else:
         }
     }
 
-
 # ==================== PASSWORD VALIDATION ====================
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -102,29 +98,28 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
 # ==================== INTERNATIONALIZATION ====================
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Dhaka'
 USE_I18N = True
 USE_TZ = True
 
-
 # ==================== STATIC & MEDIA FILES ====================
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# WhiteNoise সেটিংস (সাইট যাতে 500 Error না দেয়)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+WHITENOISE_MANIFEST_STRICT = False # কোনো ফাইল মিসিং থাকলেও সাইট ক্র্যাশ করবে না
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 
 # ==================== DEFAULT SETTINGS ====================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/admin-panel/login/'
 LOGIN_REDIRECT_URL = '/admin-panel/'
-
 
 # ==================== REST FRAMEWORK & JWT ====================
 REST_FRAMEWORK = {
@@ -142,11 +137,11 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
 }
 
-
 # ==================== EMAIL CONFIGURATION ====================
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='hratul838@gmail.com')
-EMAIL_HOST_PASSWORD = config('egcz ebjs dpft sfhu', default='')
+# আপনার আসল পাসওয়ার্ডটি এখানে ডিফল্ট হিসেবে রাখা হলো (তবে Render-এ Environment Variable দিলে সেটি অগ্রাধিকার পাবে)
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='egcz ebjs dpft sfhu')
